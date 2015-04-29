@@ -14,10 +14,12 @@
 namespace sf
 {
 struct BlendMode;
+struct StencilMode;
 class Color;
 class Transform;
 
 std::ostream& operator<<(std::ostream& os, const BlendMode& blendMode);
+std::ostream& operator<<(std::ostream& os, const StencilMode& stencilMode);
 std::ostream& operator<<(std::ostream& os, const Color& color);
 std::ostream& operator<<(std::ostream& os, const Transform& transform);
 
