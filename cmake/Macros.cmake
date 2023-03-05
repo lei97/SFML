@@ -35,6 +35,17 @@ function(sfml_set_stdlib target)
             message(FATAL_ERROR "Clang is the only supported compiler on macOS")
         endif()
     endif()
+
+    # on some platforms (e.g. ARM), GCC requires linking libatomic to use <atomic> features
+    if(SFML_COMPILER_GCC)
+        include(CheckCXXSourceCompiles)
+        check_cxx_source_compiles("#include <atomic>
+            #include <cstdint>
+            int main(){std::atomic<std::uint64_t> x(1); return x.fetch_add(1);}" ATOMIC_TEST)
+        if(NOT ATOMIC_TEST)
+            target_link_libraries(${target} PUBLIC "-latomic")
+        endif()
+    endif()
 endfunction()
 
 function(sfml_set_common_ios_properties target)
